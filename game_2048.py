@@ -6,14 +6,14 @@ def théme():
     """
 
     permet à l'utilisateur de choisir son théme entre le 2048 'normal', 2048 en chiffre romain, l'alphabéte et la chimie
-    
+
     """
     return input("Ton théme?, N(2048), R(2048 en chiffre romain), A(alphabéte), C(chimie)")
 
 Théme={"N":"2048 CLASSIQUE","R": "2048 EN CHIFFRE ROMAIN","A":"ALPHABETE" ,"C": "CHIMIE"}
-    
+
 def select_théme():
-    
+
 
 def grid_init():
     """
@@ -63,15 +63,15 @@ def grid_print(grid):
     for e in grid:
         for i in e:
             if i==0:
-                c+='    '+b 
+                c+='    '+b
             elif len(str(i))==1:
                 c+=str(i)+' '*3+b
             elif len(str(i))==2:
-                c+=str(i)+' '*2+b 
+                c+=str(i)+' '*2+b
             elif len(str(i))==3:
-                c+=str(i)+' '+b 
+                c+=str(i)+' '+b
             else:
-                c+=str(i)+b 
+                c+=str(i)+b
         c+='\n' +a+'\n'+b
     c=a+'\n'+ c[:len(c)-1]
     print(c)
@@ -98,9 +98,9 @@ def is_grid_over(grid):
 def grid_get_max_value(grid):
     """
     Une fonction que renvoie la valeur maximale de la grille
-    
+
     CU: aucune
-    
+
     Exemple
     >>> grid=[[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> grid_get_max_value(grid)
@@ -120,9 +120,9 @@ def grid_get_max_value(grid):
 def trouver_cases_vides(grid):
     """
     Fonction que trouve les cases vides dans la grille
-    
+
     CU: la len(grid)==4, grid doit être une liste de 4 liste contenant 4 entiers
-    
+
     Exemple:
     >>> grid= [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> trouver_cases_vides(grid)
@@ -134,14 +134,14 @@ def trouver_cases_vides(grid):
             if grid[e][i]==0:
                 liste+=[(e,i)]
     return liste
-            
-    
+
+
 print(trouver_cases_vides([[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]))
-                
+
 def grid_add_new_tile(grid):
     """
     Fonction qu'additione des nouveux elements à la grille
-    
+
     CU: grille carrée de 4 lignes
     """
     if not(is_grid_over):
@@ -161,21 +161,51 @@ def grid_add_new_tile(grid):
 
 DIRECTIONS = { "right" : (1,0), "left" : (-1,0), "up" : (0,-1), "down" : (0,1) }
 
-##def grid_get_next(grid,i,j,d):
-##    """
-##    Qui renvoie la cellule adjacente à la cellule de coordonnées (i,j)
-##    dans la grille grid dans la direction d si elle existe ou None sinon
-##    
-##    CU: i et j doivent être compris entre 0 et 3 inclus,
-##    et d ne peut être que up, down, right et left en chaine de caracteres
-##    
-##    Exemple:
-##    >>> grid = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]
-##    >>> grid_get_next(grid,1,0,'up')
-##    2
-##    >>> grid_get_next(grid,2,0,'down')
-##    4
-##    """
+def grid_get_next(grid,i,j,d):
+    """
+   Qui renvoie la cellule adjacente à la cellule de coordonnées (i,j)
+   dans la grille grid dans la direction d si elle existe ou None sinon
+
+    CU: i et j doivent être compris entre 0 et 3 inclus,
+    et d ne peut être que up, down, right et left en chaine de caracteres
+
+    Exemple:
+    >>> grid = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]
+    >>> grid_get_next(grid,1,0,'up')
+    2
+    >>> grid_get_next(grid,2,0,'down')
+    4
+    """
+
+    sum1 = 0
+
+    if(d == "up"):
+        sum1 = i-1
+        if(sum1<0):
+            return grid[i][j]
+        else:
+            return grid[sum1][j]
+    else if(d == "down"):
+        sum1 = i+1
+        if(sum1>len(grid)-1):
+            return grid[i][j]
+        else:
+            return grid[sum1][j]
+    else if(d == "right"):
+        sum1 = j+1
+        if(sum1>len(grid)-1):
+            return grid[i][j]
+        else:
+            return grid[i][sum1]
+    else if(d == "left"):
+        sum1 = j-1
+        if(sum1<0):
+            return grid[i][j]
+        else:
+            return grid[i][sum1]
+
+
+
 ##    if 0<i<3 and 0<j<3:
 ##        return grid[i+ DIRECTIONS[d][1]][i+ DIRECTIONS[d]][0]
 ##    if d == 'up' and j==0:
@@ -188,7 +218,7 @@ DIRECTIONS = { "right" : (1,0), "left" : (-1,0), "up" : (0,-1), "down" : (0,1) }
 ##        return None
 ##
 ##
-##grid = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]        
+##grid = [[2, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [2, 0, 0, 0]]
 ##print(grid_get_next(grid,2,0,'down'))
 
 
@@ -197,9 +227,9 @@ DIRECTIONS = { "right" : (1,0), "left" : (-1,0), "up" : (0,-1), "down" : (0,1) }
 def tiles_up(grid):
     """
     Envoie vers l'haut toutes les elements de la grille
-    
+
     CU: grille carrée de 4 lignes
-    
+
     Exemple:
     >>> grid=[[4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> tiles_up(grid)
@@ -214,13 +244,13 @@ def tiles_up(grid):
                     grid[i+1][j]=grid[i+2][j]
                     grid[i+2][j]=grid[i+3][j]
                     grid[i+3][j]=0
-                    
+
         if  grid[i+1][j]==0  and (grid[i+2][j]!=0 or grid[i+3][j]!=0):
              while grid[i+1][j]==0:
                 grid[i+1][j]=grid[i+2][j]
                 grid[i+2][j]=grid[i+3][j]
                 grid[i+3][j]=0
-                
+
         if grid[i+2][j] ==0 and grid[i+3][j]!=0:
             grid[i+2][j]=grid[i+3][j]
             grid[i+3][j]=0
@@ -229,9 +259,9 @@ def tiles_up(grid):
 def tiles_down(grid):
     """
     Envoie vers le bas toutes les elements de la grille
-    
+
     CU: grille carrée de 4 lignes
-    
+
     Exemple:
     >>> grid=[[4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> tiles_down(grid)
@@ -246,7 +276,7 @@ def tiles_down(grid):
                     grid[i+1][j]=grid[i-2][j]
                     grid[i+2][j]=grid[i-3][j]
                     grid[i+3][j]=0
-                    
+
         if  grid[i-1][j]==0  and (grid[i-2][j]!=0 or grid[i-3][j]!=0):
              while grid[i-1][j]==0:
                 grid[i-1][j]=grid[i-2][j]
@@ -255,14 +285,14 @@ def tiles_down(grid):
         if grid[i-2][j] ==0 and grid[i-3][j]!=0:
             grid[i-2][j]=grid[i-3][j]
             grid[i-3][j]=0
-    return grid 
+    return grid
 
 def tiles_right(grid):
     """
     Envoie vers le bas toutes les elements de la grille.
-    
+
     CU: grille carrée de 4 lignes
-    
+
     Exemple:
     >>> grid=[[4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> tiles_right(grid)
@@ -277,13 +307,13 @@ def tiles_right(grid):
                     grid[j][i-1]=grid[j][i-2]
                     grid[j][i-2]=grid[j][i-3]
                     grid[j][i-3]=0
-                    
+
         if  grid[j][i-1]==0  and (grid[j][i-2]!=0 or grid[j][i-3]!=0):
              while grid[j][i-1]==0:
                 grid[j][i-1]=grid[j][i-2]
                 grid[j][i-2]=grid[j][i-3]
                 grid[j][i-3]=0
-                
+
         if grid[j][i-2] ==0 and grid[j][i-3]!=0:
             grid[j][i-2]=grid[j][i-3]
             grid[j][i-3]=0
@@ -292,9 +322,9 @@ def tiles_right(grid):
 def tiles_left(grid):
     """
     Envoie vers le bas toutes les elements de la grille
-    
+
     CU: grille carrée de 4 lignes
-    
+
     Exemple:
     >>> grid=[[4, 0, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0], [4, 0, 0, 0]]
     >>> tiles_left(grid)
@@ -309,7 +339,7 @@ def tiles_left(grid):
                     grid[j][i+1]=grid[j][i+2]
                     grid[j][i+2]=grid[j][i+3]
                     grid[j][i+3]=0
-                    
+
         if  grid[j][i+1]==0  and (grid[j][i+2]!=0 or grid[j][i+3]!=0):
              while grid[j][i+1]==0:
                 grid[j][i+1]=grid[j][i+2]
@@ -327,9 +357,9 @@ def tiles_left(grid):
 def fusion_up(grid):
     """
     Ajoute deux element egaux lorsque le mouvement est vers l'haut
-    
+
     CU: grille carrée de 4 lignes
-    
+
     Exemples:
     >>> grid=[[4, 2, 0, 0], [0, 2, 0, 0], [0, 0, 2, 0], [4, 0, 0, 0]]
     >>> l=tiles_up(grid)
@@ -347,25 +377,25 @@ def fusion_up(grid):
             grid[i+1][j]=grid[i+2][j]
             grid[i+2][j]=grid[i+3][j]
             grid[i+3][j]=0
-            
+
         if grid[i+1][j]==grid[i+2][j]:
             grid[i+1][j]+=grid[i+2][j]
             grid[i+2][j]=grid[i+3][j]
             grid[i+3][j]=0
-            
+
         if grid[i+2][j]==grid[i+3][j]:
             grid[i+2][j]=grid[i+3][j]
             grid[i+3][j]=0
-            
+
     return grid
 
 
 def grid_move(grid, d):
     """
     Bouge les elements de la grille en fonction du move choisi
-    
+
     CU: grille carrée de 4 cases
-    
+
     Exemple:
     >>>
     >
@@ -378,24 +408,24 @@ def grid_move(grid, d):
         return fusion_right(tiles_right(grid))
     if d=='left':
         return fusion_left(tiles_left(grid))
-        
-    
-        
+
+
+
 def get_new_tile():
     """
     Renvoie la valeur d’une nouvelle case (2 ou 4)
     Par défaut, les 2 sont plus fréquents que les 4
-    
+
     CU: aucune
     """
     L=['2','2','4','2','2','2','4']
     for i in range(len(L)):
         return L[randint(0,7)]
-    
+
 def grid_score(grid):
     """
     Retournant le score, c’est-à-dire la somme des valeurs des tuiles présentes dans la grille
-     
+
     CU: une grille carrée de 4 lignes
 
     Exemple:
@@ -409,16 +439,7 @@ def grid_score(grid):
 
 
 
-    
+
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-
-
-
-
-
-
-
-
-
